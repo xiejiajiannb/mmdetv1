@@ -15,6 +15,7 @@ data_root = 'data/VOCdevkit/'
 #         './data/': 's3://openmmlab/datasets/segmentation/',
 #         'data/': 's3://openmmlab/datasets/segmentation/'
 #     }))
+
 backend_args = None
 
 train_pipeline = [
@@ -34,6 +35,7 @@ test_pipeline = [
         meta_keys=('img_id', 'img_path', 'ori_shape', 'img_shape',
                    'scale_factor'))
 ]
+
 train_dataloader = dict(
     batch_size=2,
     num_workers=2,
