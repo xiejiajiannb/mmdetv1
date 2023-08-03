@@ -68,8 +68,8 @@ test_pipeline = [
 ]
 
 train_dataloader = dict(
-    batch_size=64,
-    num_workers=8,
+    batch_size=16,
+    num_workers=4,
     persistent_workers=True,
     sampler=dict(type='DefaultSampler', shuffle=True),
     batch_sampler=dict(type='AspectRatioBatchSampler'),
@@ -95,8 +95,8 @@ train_dataloader = dict(
             ])))
 
 val_dataloader = dict(
-    batch_size=64,
-    num_workers=8,
+    batch_size=16,
+    num_workers=4,
     persistent_workers=True,
     drop_last=False,
     sampler=dict(type='DefaultSampler', shuffle=False),
@@ -117,7 +117,7 @@ test_evaluator = val_evaluator
 
 #------------------策略参数-----------------------------------------
 # training schedule for 2x
-train_cfg = dict(type='EpochBasedTrainLoop', max_epochs=24, val_interval=1)
+train_cfg = dict(type='EpochBasedTrainLoop', max_epochs=10, val_interval=2)
 val_cfg = dict(type='ValLoop')
 test_cfg = dict(type='TestLoop')
 
@@ -148,29 +148,4 @@ auto_scale_lr = dict(enable=False, base_batch_size=2)
 
 
 #-----------------------日志策略---------------------------------------------
-default_scope = 'mmdet'
-
-default_hooks = dict(
-    timer=dict(type='IterTimerHook'),
-    logger=dict(type='LoggerHook', interval=50),
-    param_scheduler=dict(type='ParamSchedulerHook'),
-    checkpoint=dict(type='CheckpointHook', interval=1),
-    sampler_seed=dict(type='DistSamplerSeedHook'),
-    visualization=dict(type='DetVisualizationHook'))
-
-env_cfg = dict(
-    cudnn_benchmark=False,
-    mp_cfg=dict(mp_start_method='fork', opencv_num_threads=0),
-    dist_cfg=dict(backend='nccl'),
-)
-
-vis_backends = [dict(type='LocalVisBackend')]
-visualizer = dict(
-    type='DetLocalVisualizer', vis_backends=vis_backends, name='visualizer')
-log_processor = dict(type='LogProcessor', window_size=50, by_epoch=True)
-
-log_level = 'INFO'
-load_from = None
-resume = False
-
 
